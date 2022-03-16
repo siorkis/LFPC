@@ -54,6 +54,7 @@ keywordTokens = {
     "print": "PRINT"
 }
 
+# Using readline()
 file1 = open('C:\lfpc\lab 3\input.txt', 'r')
 storage_final = ''
 storage_pair = ''
@@ -68,6 +69,7 @@ dataType_keys = dataTypeTokens.keys()
 keyword_keys = keywordTokens.keys()
 
 while True:
+    # Get next line from file
     line = file1.readline()
     storage_local = ''
     # if line is empty
@@ -154,6 +156,10 @@ while True:
                     storage_final += "FUNCTION NAME\t" + storage_local + "\n"
                     storage_pair = ''
                     storage_local = ''
+                
+                if storage_local.isnumeric():
+                    storage_final += "INT\t" + storage_local + "\n"
+                    storage_local = ''
 
                 if storage_local != '':
                     storage_final += "IDENTIFIER\t" + storage_local + "\n"
@@ -194,6 +200,7 @@ file_output.close()
 file_output = open('C:\lfpc\lab 3\output.txt', 'a')
 file1 = open('C:\lfpc\lab 3\input.txt', 'r')
 while True:
+    # Get next line from file
     line = file1.readline()
     # if line is empty
     # end of file is reached
