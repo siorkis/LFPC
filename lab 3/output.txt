@@ -1,0 +1,48 @@
+function sum(int a, int b){
+int sum = a + b
+return sum
+}
+
+int a = 100 
+int b = 50
+print("sum =", sum(a, b))
+
+------------------------------------------------
+FUNCTION	function
+FUNCTION NAME	sum
+LPAREN	 (
+INT	int
+IDENTIFIER	a
+COMMA	,
+INT	int
+IDENTIFIER	b
+RPAREN	 )
+LBRACE	 {
+INT	int
+IDENTIFIER	sum
+EQUAL	=
+IDENTIFIER	a
+PLUS	+
+IDENTIFIER	b
+RETURN	return
+IDENTIFIER	sum
+RBRACE	 }
+INT	int
+IDENTIFIER	a
+EQUAL	=
+VALUE	100
+INT	int
+IDENTIFIER	b
+EQUAL	=
+VALUE	50
+PRINT	print
+LPAREN	 (
+TEXT:	sum =
+COMMA	,
+IDENTIFIER	sum
+LPAREN	 (
+IDENTIFIER	a
+COMMA	,
+IDENTIFIER	b
+RPAREN	 )
+RPAREN	 )
