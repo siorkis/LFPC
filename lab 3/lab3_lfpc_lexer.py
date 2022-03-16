@@ -205,6 +205,9 @@ while True:
     # if line is empty
     # end of file is reached
     if not line:
+        storage_final += "EOF"
+        storage_final += "\t''"
+        storage_final += "\n"
         break
     file_output.write(line)
 
