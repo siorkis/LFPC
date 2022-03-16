@@ -34,9 +34,7 @@ logicTokens = {
 
 dataTypeTokens = {
     "int": "INT",
-    "double": "DOUBLE",
     "string": "STRING",
-    "array": "ARRAY",
     "bool": "BOOLEAN",
 }
 
