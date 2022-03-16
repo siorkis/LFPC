@@ -46,7 +46,6 @@ next_index = 0
 
 for k in range(len(word)):
     char = word[k] #c f n m
-    j = 0
 
     if char in matrix_graph[0]:
         next_index = matrix_graph[0].index(char)
