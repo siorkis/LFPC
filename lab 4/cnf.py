@@ -27,7 +27,7 @@ def multiple_e_values(grammar, e_value_list, eps_list):
             for char in mult_e_list[z]:
                 e_string.append(char)
             x = 0
-            while e_string.count(eps_list[0]) > 0:             #TO DO: iterate all eps values (now working only with 2)
+            while e_string.count(eps_list[0]) > 0:             
                 buffer_e_string = e_string
                 if buffer_e_string[x] in eps_list:
                     buffer_e_string.pop(x)
@@ -60,7 +60,7 @@ for key in e_list:
 eValueList = []
 for key in freeGrammar:
     for value in freeGrammar[key]:
-        if e_list[0] in value:                  # TO DO: iterate all values from e_list
+        if e_list[0] in value:                  
             eValueList.append(key)
             eValueList.append(value)
         if value == '.':
