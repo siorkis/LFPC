@@ -6,7 +6,7 @@ freeGrammar = {
     "D": ["AB"]
 }
 
-Vn_list = ["A", "B", "C", "D", "S", "E"]
+Vn_list = ["A", "B", "C", "D", "S"]
 Vt_list = ["a", "b"]
 accesseble = ["S"]
 print("Start Grammar:\n", freeGrammar)
@@ -63,6 +63,9 @@ for key in freeGrammar:
         if e_list[0] in value:                  # TO DO: iterate all values from e_list
             eValueList.append(key)
             eValueList.append(value)
+        if value == '.':
+            freeGrammar[key].remove('.')
+
 # print(eValueList, "- eValueList")
 
 
@@ -105,9 +108,6 @@ for key in freeGrammar:
             if value not in key_to_delete:
                 key_to_delete.append(value)
 
-# for key in key_to_delete:
-#     del freeGrammar[key]
-
 print("Renaming:\n", freeGrammar)
 
 #------------PART 3-------Non-Productive------------------
@@ -149,7 +149,142 @@ for key in Vn_list:
     if key in freeGrammar and key not in accesseble:
         del freeGrammar[key]
 
+for key in accesseble:
+    if key not in freeGrammar:
+        accesseble.remove(key)
+
+for key in freeGrammar:
+    for value in freeGrammar[key]:
+        for char in value:
+            if char not in Vt_list and char not in accesseble:
+                freeGrammar[key].remove(value)
+
+
 print("Exclude unaccessble transactions:\n", freeGrammar)
 
 
 #--------------------PART 5-----------CNF---------
+map_for_cnf = {}
+cnf = {}
+for key in freeGrammar:
+    cnf[key] = []
+
+index_list_y = []
+index_list_x = []
+index_list = []
+cnf_value = ''
+index = 0
+bivalue = []
+bivalue_cnf = []
+
+first_rule = True
+
+for key in freeGrammar:
+    for value in freeGrammar[key]:
+        # Vt
+        if len(value) == 1:
+            cnf[key].append(value)
+        # Vn+Vn
+        if len(value) == 2:
+            for char in value:
+                bivalue.append(char)
+
+            for char in Vt_list:
+                if char in bivalue:
+                    first_rule = False
+
+            if first_rule:
+                cnf[key].append(value)
+                break
+
+            bivalue = []
+            first_rule = True
+        # Vt+Vn / Vt+Vt
+        if len(value) == 2:
+            for char in value:
+                bivalue.append(char)
+                if char in Vt_list:
+                    if char not in map_for_cnf:
+                        index = 1
+                        end = False
+                        while not end:
+                            if index in index_list_x:
+                                index += 1
+                            else:
+                                end = True
+                        index_list_x.append(index)
+                        cnf_value += "X" + str(index)
+                        map_for_cnf[char] = cnf_value
+            end = False
+            # while not end:
+            for char in bivalue:
+                if char in Vt_list:
+                    end = True
+                    ind = bivalue.index(char)
+                    if cnf_value == '':
+                        bivalue[ind] = map_for_cnf[char]
+                    else:
+                        bivalue[ind] = cnf_value
+
+            cnf_value = ''
+            for char in bivalue:
+                cnf_value += char
+            cnf[key].append(cnf_value)
+
+            cnf_value = ''
+            bivalue = []
+
+cnf_value_final = ''
+for key in freeGrammar:
+    for value in freeGrammar[key]:
+        if len(value) >= 3:
+            left = len(value) // 2
+            right = len(value) - left
+
+            for char in value:
+                bivalue.append(char)
+            left_part = []
+            right_part = []
+            for i in range(left):
+                left_part.append(bivalue[i])
+
+            for i in range(left, len(value)):
+                right_part.append(bivalue[i])
+
+            for char in left_part:
+                cnf_value += char
+            left_part = [cnf_value]
+
+            cnf_value = ''
+            for char in right_part:
+                cnf_value += char
+            right_part = [cnf_value]
+
+            final = [left_part[0], right_part[0]]
+
+            for part in final:
+                cnf_value = ''
+                if part not in map_for_cnf:
+                    index = 1
+                    end = False
+                    while not end:
+                        if index in index_list_y:
+                            index += 1
+                        else:
+                            end = True
+                    index_list_y.append(index)
+                    cnf_value += "Y" + str(index)
+                    map_for_cnf[part] = cnf_value
+
+            for part in final:
+                cnf_value_final += map_for_cnf[part]
+
+            cnf[key].append(cnf_value_final)
+
+            bivalue = []
+            cnf_value = ''
+            cnf_value_final = ''
+
+print("------------------------------------------------------------")
+print("Final CNF:\n", cnf)
+print("Map for CNF:\n", map_for_cnf)
