@@ -28,7 +28,7 @@ def multiple_e_values(grammar, e_value_list, eps_list):
                 e_string.append(char)
             x = 0
             while e_string.count(eps_list[0]) > 0:             #TO DO: iterate all eps values (now working only with 2)
-                buffer_e_string = e_string                     # not correctly deleting: ABAb -> bAb, Bb | missing ABb
+                buffer_e_string = e_string
                 if buffer_e_string[x] in eps_list:
                     buffer_e_string.pop(x)
                     buf_string = ''.join([str(item) for item in buffer_e_string])
